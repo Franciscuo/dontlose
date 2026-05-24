@@ -4,9 +4,21 @@ struct SetupView: View {
     @EnvironmentObject var router: AppRouter
     @State private var draft: SessionConfig = .default(for: .interview, theme: .minimal)
 
+    @State private var mute: Bool = false
+
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
-            header
+            HStack(alignment: .top) {
+                header
+                Spacer()
+                Toggle(isOn: $mute) {
+                    Image(systemName: mute ? "speaker.slash.fill" : "speaker.wave.2.fill")
+                        .imageScale(.large)
+                }
+                .toggleStyle(.button)
+                .help(mute ? "Sound off" : "Sound on")
+                .onChange(of: mute) { _, newValue in router.settings.masterMute = newValue }
+            }
             ModePickerRow(selection: $draft.mode, onChange: applyModeDefaults)
             TotalTimePickerRow(totalSeconds: $draft.totalSeconds)
             ThemePickerRow(selection: $draft.theme)
@@ -26,7 +38,10 @@ struct SetupView: View {
         }
         .padding(28)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .onAppear { draft = router.settings.lastConfig }
+        .onAppear {
+            draft = router.settings.lastConfig
+            mute  = router.settings.masterMute
+        }
     }
 
     private var header: some View {
