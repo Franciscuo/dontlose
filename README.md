@@ -1,8 +1,10 @@
-# bout
+# dontlose
+
+> **Don't lose to the clock.**
 
 A macOS app for **timed practice rounds** — system-design interviews, production-bug response drills, and focused work sessions — wrapped in real, world-class animations.
 
-> A *bout* is a boxing match. A *bout* is a session of focused effort. Same word, same app.
+The clock is the only opponent. Stay sharp. Don't lose the round.
 
 ## Modes
 
@@ -18,7 +20,7 @@ A macOS app for **timed practice rounds** — system-design interviews, producti
 - ⚽ **World Cup 26** — stadium with real crowd + random flags, your team vs opponent (country selector), goal horn on step complete
 - ▫️ **Minimal** — bar + digital step marker only
 
-All themes share a single digital step marker (LED-style scoreboard) and a draining timer bar.
+All themes share a single LED-style digital step marker and a draining timer bar.
 
 ## Tech
 
