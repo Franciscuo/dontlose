@@ -14,18 +14,26 @@ struct BoxingTheme: Theme {
     }
 }
 
-private struct BoxingStageView: View {
-    @ObservedObject var vm: SessionViewModel
-
-    var body: some View {
-        SpriteView(scene: makeScene(), options: [.allowsTransparency])
-            .ignoresSafeArea()
-    }
-
-    private func makeScene() -> SKScene {
+@MainActor
+private final class BoxingSceneHolder: ObservableObject {
+    let scene: BoxingScene
+    init(vm: SessionViewModel) {
         let s = BoxingScene(size: CGSize(width: 1200, height: 700))
         s.vm = vm
         s.configure(cornerColor: vm.state.config.themeOptions.cornerColor)
-        return s
+        scene = s
+    }
+}
+
+private struct BoxingStageView: View {
+    @StateObject private var holder: BoxingSceneHolder
+
+    init(vm: SessionViewModel) {
+        _holder = StateObject(wrappedValue: BoxingSceneHolder(vm: vm))
+    }
+
+    var body: some View {
+        SpriteView(scene: holder.scene, options: [.allowsTransparency])
+            .ignoresSafeArea()
     }
 }

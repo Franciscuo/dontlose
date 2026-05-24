@@ -14,17 +14,27 @@ struct WorldCupTheme: Theme {
     }
 }
 
-private struct WorldCupStageView: View {
-    @ObservedObject var vm: SessionViewModel
-    var body: some View {
-        SpriteView(scene: makeScene(), options: [.allowsTransparency])
-            .ignoresSafeArea()
-    }
-    private func makeScene() -> SKScene {
+@MainActor
+private final class WorldCupSceneHolder: ObservableObject {
+    let scene: WorldCupScene
+    init(vm: SessionViewModel) {
         let s = WorldCupScene(size: CGSize(width: 1200, height: 700))
         s.vm = vm
         s.configure(yourTeam: vm.state.config.themeOptions.yourTeam,
                     opponent: vm.state.config.themeOptions.opponentTeam)
-        return s
+        scene = s
+    }
+}
+
+private struct WorldCupStageView: View {
+    @StateObject private var holder: WorldCupSceneHolder
+
+    init(vm: SessionViewModel) {
+        _holder = StateObject(wrappedValue: WorldCupSceneHolder(vm: vm))
+    }
+
+    var body: some View {
+        SpriteView(scene: holder.scene, options: [.allowsTransparency])
+            .ignoresSafeArea()
     }
 }
