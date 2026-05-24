@@ -2,21 +2,24 @@ import SwiftUI
 
 @main
 struct DontLoseApp: App {
+    @StateObject private var router = AppRouter()
     var body: some Scene {
         WindowGroup("dontlose") {
-            ContentView()
+            RootView()
+                .environmentObject(router)
                 .frame(minWidth: 900, minHeight: 600)
         }
         .windowResizability(.contentSize)
     }
 }
 
-struct ContentView: View {
+struct RootView: View {
+    @EnvironmentObject var router: AppRouter
     var body: some View {
-        VStack(spacing: 16) {
-            Text("dontlose").font(.system(size: 48, weight: .heavy))
-            Text("Don't lose to the clock.").foregroundStyle(.secondary)
+        switch router.route {
+        case .setup:              SetupView()
+        case .session(let cfg):   SessionView(config: cfg)
+        case .complete(let cfg):  SessionCompleteView(config: cfg)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
