@@ -53,6 +53,7 @@ final class SessionViewModel: ObservableObject {
         state.remainingInStep -= 1
         state.totalRemaining -= 1
 
+        // De-dup key: threshold * 1000 + stepIndex (so 30/10 thresholds never collide across steps).
         if state.remainingInStep == 30, !firedWarnings.contains(30 * 1000 + state.currentStepIndex) {
             firedWarnings.insert(30 * 1000 + state.currentStepIndex)
             emit(.warningFired(secondsRemaining: 30))
