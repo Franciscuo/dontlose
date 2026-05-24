@@ -21,18 +21,16 @@ targets:
     resources:
       - path: dontlose/Resources
         optional: true
-    info:
-      path: dontlose/Info.plist
-      properties:
-        CFBundleDisplayName: dontlose
-        CFBundleShortVersionString: "$(MARKETING_VERSION)"
-        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
-        LSMinimumSystemVersion: "$(MACOSX_DEPLOYMENT_TARGET)"
-        NSHumanReadableCopyright: "Copyright © 2026 franlopz10. All rights reserved."
-        NSMicrophoneUsageDescription: "dontlose does not use the microphone."
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.franlopz10.dontlose
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: dontlose
+        INFOPLIST_KEY_LSMinimumSystemVersion: "$(MACOSX_DEPLOYMENT_TARGET)"
+        INFOPLIST_KEY_NSHumanReadableCopyright: "Copyright © 2026 franlopz10. All rights reserved."
+        INFOPLIST_KEY_NSMicrophoneUsageDescription: "dontlose does not use the microphone."
+        INFOPLIST_KEY_NSPrincipalClass: NSApplication
+        INFOPLIST_KEY_NSMainStoryboardFile: ""
   dontloseTests:
     type: bundle.unit-test
     platform: macOS
